@@ -41,6 +41,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/booking/{id}', BookingPage::class)->name('booking');
     Route::get('/histori', Histori::class);
     Route::get('/cart', CartPage::class);
-    Route::get('/success', SuccesPage::class)->name('booking.success');
+    Route::get('/success/{id?}', SuccesPage::class)->name('booking.success');
     Route::get('/cancel', CancelPage::class);
 });

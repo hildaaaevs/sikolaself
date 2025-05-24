@@ -10,15 +10,18 @@ class SuccesPage extends Component
     public $booking;
     public $bookingName;
 
-    public function mount()
+    public function mount($id = null)
     {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
-        // Ambil booking terakhir dari user yang sedang login
+        // Ambil booking berdasarkan ID jika ada, jika tidak ambil yang terakhir
         $this->booking = Reservasii::with(['user', 'detail.paketFoto'])
             ->where('user_id', auth()->id())
+            ->when($id, function($query) use ($id) {
+                return $query->where('id', $id);
+            })
             ->latest()
             ->first();
             

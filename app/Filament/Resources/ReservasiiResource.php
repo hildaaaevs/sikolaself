@@ -252,14 +252,15 @@ class ReservasiiResource extends Resource
                     EditAction::make(),
                     DeleteAction::make()
                 ])
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->defaultSort('created_at', 'desc');
-    }
+                ]);
+            }
+           // ->bulkActions([
+                //Tables\Actions\BulkActionGroup::make([
+                    //Tables\Actions\DeleteBulkAction::make(),
+                //]),
+           // ])
+            //->defaultSort('created_at', 'desc');
+            
 
     public static function getRelations(): array
     {
