@@ -127,6 +127,7 @@ class BookingPage extends Component
 
         // Tampilkan pesan sukses dan redirect
         session()->flash('message', 'Booking berhasil dibuat! Silahkan lakukan pembayaran sesuai metode yang dipilih.');
+        session()->flash('booking_name', $this->nama);
         return redirect()->route('booking.success');
     }
 
