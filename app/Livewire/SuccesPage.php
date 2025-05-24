@@ -12,11 +12,20 @@ class SuccesPage extends Component
 
     public function mount()
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
         // Ambil booking terakhir dari user yang sedang login
         $this->booking = Reservasii::with(['user', 'detail.paketFoto'])
             ->where('user_id', auth()->id())
             ->latest()
             ->first();
+            
+        if (!$this->booking) {
+            session()->flash('error', 'Tidak ada data booking yang ditemukan');
+            return redirect()->route('home');
+        }
             
         // Ambil nama dari session
         $this->bookingName = session('booking_name');

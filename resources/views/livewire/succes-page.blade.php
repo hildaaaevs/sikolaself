@@ -9,7 +9,9 @@
             <div class="flex flex-col items-start justify-start space-y-2">
               <p class="text-lg font-semibold leading-4 text-left text-gray-800 dark:text-gray-400">
                 {{ $bookingName }}</p>
+              @if($booking && $booking->user)
               <p class="text-sm leading-4 text-gray-600 dark:text-gray-400">{{ $booking->user->email }}</p>
+              @endif
             </div>
           </div>
         </div>

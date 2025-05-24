@@ -108,6 +108,7 @@ class BookingPage extends Component
         // Membuat reservasi baru
         $reservasi = Reservasii::create([
             'user_id' => auth()->id(),
+            'nama' => $this->nama,
             'tanggal' => $this->tanggal,
             'waktu' => $this->waktu,
             'promo_id' => null, // Logika promo bisa ditambahkan di sini

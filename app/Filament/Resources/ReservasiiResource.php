@@ -52,6 +52,9 @@ class ReservasiiResource extends Resource
                                 ->searchable()
                                 ->preload()
                                 ->required(),
+                            TextInput::make('nama')
+                                ->label('Nama')
+                                ->required(),
                             Select::make('metode_pembayaran')
                                 ->label('Metode pembayaran')
                                 ->options([
@@ -181,8 +184,8 @@ class ReservasiiResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('Nama User')
+                Tables\Columns\TextColumn::make('nama')
+                    ->label('Nama')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('tanggal')
@@ -190,11 +193,12 @@ class ReservasiiResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('waktu')
-                    ->label('Jam'),     
-                
+                    ->label('Jam')
+                    ->time('H:i'),     
 
-                Tables\Columns\TextColumn::make('promo.kode')
-                    ->label('Kode Promo')
+                Tables\Columns\TextColumn::make('detail.paketFoto.nama_paket_foto')
+                    ->label('Paket Foto')
+                    ->listWithLineBreaks()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('total')

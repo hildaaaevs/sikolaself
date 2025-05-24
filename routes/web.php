@@ -14,7 +14,7 @@ use App\Livewire\PaketFotoPage;
 use App\Livewire\SuccesPage;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', HomePage::class);
+Route::get('/', HomePage::class)->name('home');
 Route::get('/paketfoto', PaketFotoPage::class);
 Route::get('/paketfoto/{nama_paket_foto}', DetailPaketFotoPage::class);
 

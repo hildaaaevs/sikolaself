@@ -11,6 +11,7 @@ class Reservasii extends Model
     
     protected $fillable = [
         'user_id',
+        'nama',
         'tanggal',
         'waktu',
         'promo_id',
