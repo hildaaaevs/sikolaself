@@ -38,6 +38,13 @@ class ReservasiiResource extends Resource
     protected static ?string $model = Reservasii::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
+    protected static ?string $navigationLabel = 'Reservasi';
+    public static function getPluralLabel(): string{
+        return 'Reservasi';}
+        public static function getModelLabel(): string
+{
+    return 'Reservasi';
+}
 
     public static function form(Form $form): Form
     {
@@ -214,36 +221,17 @@ class ReservasiiResource extends Resource
 
                 Tables\Columns\TextColumn::make('metode_pembayaran')
                     ->badge(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Tanggal Dibuat')
-                    ->dateTime('d F Y - H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('tipe_pembayaran')
-                    ->options([
-                        'full' => 'Full Payment',
-                        'dp' => 'Down Payment',
-                    ])
-                    ->label('Status Pembayaran'),
-
                 Tables\Filters\Filter::make('tanggal')
                     ->form([
-                        Forms\Components\DatePicker::make('tanggal_from')->label('Dari Tanggal'),
-                        Forms\Components\DatePicker::make('tanggal_until')->label('Sampai Tanggal'),
+                        DatePicker::make('tanggal')->label('Tanggal'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['tanggal_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('tanggal', '>=', $date),
-                            )
-                            ->when(
-                                $data['tanggal_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('tanggal', '<=', $date),
-                            );
+                        return $query->when(
+                            $data['tanggal'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('tanggal', $date),
+                        );
                     }),
             ])
             ->actions([

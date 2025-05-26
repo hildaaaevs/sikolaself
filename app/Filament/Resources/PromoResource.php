@@ -27,6 +27,13 @@ class PromoResource extends Resource
     protected static ?string $model = Promo::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static ?string $navigationLabel = 'Promo';
+    public static function getPluralLabel(): string{
+        return 'Promo';}
+        public static function getModelLabel(): string
+{
+    return 'Promo';
+}
 
     public static function form(Form $form): Form
     {

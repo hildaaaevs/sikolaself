@@ -33,6 +33,13 @@ class PaketFotoResource extends Resource
     protected static ?string $model = PaketFoto::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-camera';
+    protected static ?string $navigationLabel = 'Paket Foto';
+    public static function getPluralLabel(): string{
+    return 'Paket Foto';}
+    public static function getModelLabel(): string
+{
+    return 'Paket Foto';
+}
 
     public static function form(Form $form): Form
     {
@@ -87,9 +94,9 @@ class PaketFotoResource extends Resource
                 ])
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+               // Tables\Actions\BulkActionGroup::make([
+                 //   Tables\Actions\DeleteBulkAction::make(),
+                //]),
             ]);
     }
 

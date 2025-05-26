@@ -26,7 +26,13 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $recordTitleAttribute = 'name';
-
+    protected static ?string $navigationLabel = 'User';
+    public static function getPluralLabel(): string{
+        return 'User';}
+        public static function getModelLabel(): string
+        {
+            return 'User';
+        }
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
@@ -78,9 +84,9 @@ class UserResource extends Resource
                 ])
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+              //  Tables\Actions\BulkActionGroup::make([
+                //    Tables\Actions\DeleteBulkAction::make(),
+                //]),
             ]);
     }
 
