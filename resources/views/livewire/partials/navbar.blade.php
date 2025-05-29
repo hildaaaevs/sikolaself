@@ -1,4 +1,4 @@
-<header class="flex z-50 sticky top-0 flex-wrap md:justify-start md:flex-nowrap w-full bg-gray-100 text-sm py-3 md:py-0 dark:bg-gray-800 shadow-md">
+<header class="flex z-50 sticky top-0 flex-wrap md:justify-start md:flex-nowrap w-full bg-gray-200 text-sm py-3 md:py-0 dark:bg-gray-800 shadow-md">
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <nav class="max-w-[85rem] w-full mx-auto px-4 md:px-6 lg:px-8" aria-label="Global">
     <div class="relative md:flex md:items-center md:justify-between">

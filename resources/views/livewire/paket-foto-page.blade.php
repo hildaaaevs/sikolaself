@@ -1,5 +1,5 @@
-<div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
-  <section class="py-10 bg-gray-50 font-poppins dark:bg-gray-800 rounded-lg">
+<div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto bg-gray-500">
+  <section class="py-10 bg-gray-100 font-poppins dark:bg-gray-800 rounded-lg">
     <div class="px-4 py-4 mx-auto max-w-7xl lg:py-6 md:px-6">
       <div class="flex flex-wrap mb-24 -mx-3">
         <div class="w-full px-3 lg:w-4/4">
@@ -7,8 +7,8 @@
             <div class="items-center justify-between hidden px-3 py-2 bg-gray-100 md:flex dark:bg-gray-900 ">
               <div class="flex items-center justify-between">
                 <select wire:model.live="sort" id="" class="block w-40 text-base bg-gray-100 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
-                  <option value="latest">Sort by latest</option>
-                  <option value="price">Sort by Price</option>
+                  <option value="latest">Terbaru</option>
+                  <option value="price">Harga</option>
                 </select>
               </div>
             </div>
@@ -16,9 +16,9 @@
           <div class="flex flex-wrap items-center ">
 
           @foreach ($paketfoto as $item)
-            <div class="w-full px-3 mb-6 sm:w-1/2 md:w-1/3">
-                <div class="border border-gray-300 dark:border-gray-700">
-                  <div class="relative bg-gray-200">
+            <div class="w-full px-3 mb-6 sm:w-1/2 md:w-1/3 ">
+                <div class="border border-gray-500 dark:border-gray-700">
+                  <div class="relative bg-gray-300">
                     <a href="/paketfoto/{{ $item->nama_paket_foto }}" class="">
                       <img src="{{ url('storage', $item->gambar) }}" alt="{{ $item->nama_paket_foto }}" class="object-cover w-full h-56 mx-auto ">
                     </a>

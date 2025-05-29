@@ -1,6 +1,6 @@
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
 	<h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-		Checkout
+		Booking 
 	</h1>
 	<form wire:submit.prevent="placeOrder">
   <div class="grid grid-cols-12 gap-4">
@@ -10,7 +10,7 @@
 				<!-- Shipping Address -->
       <div class="mb-6">
           <h2 class="text-xl font-bold underline text-gray-700 dark:text-white mb-2">
-              Booking Details
+              Formulir Reservasi
           </h2>
           <div class="mt-4">
               <label class="block text-gray-700 dark:text-white mb-1" for="nama">
@@ -25,7 +25,7 @@
           
           <div class="mt-4">
               <label class="block text-gray-700 dark:text-white mb-1" for="tanggal">
-                  Tanggal Booking
+                  Tanggal
               </label>
               <input wire:model="tanggal" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none @error('tanggal') border-red-500 @enderror" id="tanggal" type="date" min="{{ date('Y-m-d') }}">
               @error('tanggal')
@@ -90,7 +90,7 @@
             </label>
             <div class="flex gap-2">
                 <input wire:model="promo" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none @error('promo') border-red-500 @enderror" id="promo" type="text" placeholder="Masukkan kode promo">
-                <button type="button" wire:click="applyPromo" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Terapkan</button>
+                <button type="button" wire:click="applyPromo" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Terapkan</button>
             </div>
             @error('promo')
                 <div class="text-red-500 text-sm">{{ $message }}</div>
@@ -103,44 +103,11 @@
 
     <div class="mb-6">
         <!-- Tipe Pembayaran - Muncul ketika Transfer Bank dipilih -->
-        <div class="mt-4" id="bank-options" x-data="{ open: false }" x-show="open" style="display: none;">
-            <label class="block text-gray-700 dark:text-white mb-1">Pilih Bank</label>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" alt="BCA" class="h-8 mx-auto">
-                </div>
-                <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/1200px-BNI_logo.svg.png" alt="BNI" class="h-8 mx-auto">
-                </div>
-                <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/2560px-BANK_BRI_logo.svg.png" alt="BRI" class="h-8 mx-auto">
-                </div>
-                <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png" alt="Mandiri" class="h-8 mx-auto">
-                </div>
-            </div>
-        </div>
     </div>
     <div class="mb-6">
       <!-- Transfer Bank via Midtrans -->
-      {{--<div class="mt-6">
-        <h3 class="text-md font-bold text-gray-700 dark:text-white mb-2">Transfer Bank (via Midtrans)</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Pembayaran akan diproses melalui Midtrans Payment Gateway</p>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" alt="BCA" class="h-8 mx-auto">
-          </div>
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/1200px-BNI_logo.svg.png" alt="BNI" class="h-8 mx-auto">
-          </div>
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/2560px-BANK_BRI_logo.svg.png" alt="BRI" class="h-8 mx-auto">
-          </div>
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png" alt="Mandiri" class="h-8 mx-auto">
-          </div>
-        </div>
-      </div> --}}
+      <div class="mt-6"> 
+      </div>
     </div>
     </div>
           <!-- End Card -->
@@ -182,27 +149,13 @@
 
       <!-- Transfer Bank via Midtrans -->
       <div class="mt-6">
-        <h3 class="text-md font-bold text-gray-700 dark:text-white mb-2">Transfer Bank (via Midtrans)</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Pembayaran akan diproses melalui Midtrans Payment Gateway</p>
         <div class="grid grid-cols-2 gap-4">
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" alt="BCA" class="h-8 mx-auto">
-          </div>
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/1200px-BNI_logo.svg.png" alt="BNI" class="h-8 mx-auto">
-          </div>
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/2560px-BANK_BRI_logo.svg.png" alt="BRI" class="h-8 mx-auto">
-          </div>
-          <div class="border rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png" alt="Mandiri" class="h-8 mx-auto">
-          </div>
         </div>
       </div>
     </div>
 
             <div class="text-xl font-bold underline text-gray-700 dark:text-white mb-2">
-              ORDER SUMMARY
+                Rincian Reservasi
             </div>
             <div class="flex justify-between mb-2 font-bold">
               <span>
@@ -237,8 +190,8 @@
             </div>
             </hr>
           </div>
-          <button type="submit" class="bg-green-500 mt-4 w-full p-3 rounded-lg text-lg text-white hover:bg-green-600">
-            Place Order
+          <button type="submit" class="bg-gray-500 mt-4 w-full p-3 rounded-lg text-lg text-white hover:bg-gray-600">
+            Booking Sekarang
           </button>
           <div class="bg-white mt-4 rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
             <div class="text-xl font-bold underline text-gray-700 dark:text-white mb-2">
@@ -254,9 +207,6 @@
                     <div class="flex-1 min-w-0 ms-4">
                       <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                         {{ $paketfoto->nama_paket_foto }}
-                      </p>
-                      <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                        Quantity: 1
                       </p>
                     </div>
                     <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">

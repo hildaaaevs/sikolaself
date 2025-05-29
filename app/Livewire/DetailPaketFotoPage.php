@@ -9,7 +9,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 
-#[Title('Sikolasef - Detail Paket Foto')]
+#[Title('Detail Paket Foto - Sikolasef')]
 class DetailPaketFotoPage extends Component
 {
     public $nama_paket_foto;

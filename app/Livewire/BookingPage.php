@@ -4,8 +4,10 @@ namespace App\Livewire;
 
 use App\Models\PaketFoto;
 use App\Models\Reservasii;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
+#[Title('Booking - SiKolaself')]
 class BookingPage extends Component
 {
     public $paketfoto;

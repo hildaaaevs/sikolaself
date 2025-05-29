@@ -3,10 +3,11 @@
 namespace App\Livewire;
 
 use App\Models\PaketFoto;
+use BladeUI\Icons\Components\Icon;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 
-#[Tittle('Home Page - SiKolaself')]
+#[Title('Home Page - SiKolaself')]
 class HomePage extends Component
 {
     public function render()
