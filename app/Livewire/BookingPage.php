@@ -17,6 +17,9 @@ class BookingPage extends Component
     public $tipe_pembayaran = '';
     public $bookedTimes = [];
     public $unavailableTimes = [];
+    public $promoApplied = false;
+    public $promoDiscount = 0;
+    public $promoData = null;
 
     public function mount($id = null)
     {
@@ -80,6 +83,45 @@ class BookingPage extends Component
         return $this->bookedTimes;
     }
 
+    public function applyPromo()
+    {
+        $this->promoApplied = false;
+        $this->promoDiscount = 0;
+        $this->promoData = null;
+
+        if (empty($this->promo)) {
+            return;
+        }
+
+        $promo = \App\Models\Promo::where('kode', $this->promo)
+            ->where('aktif', true)
+            ->first();
+
+        if (!$promo) {
+            $this->addError('promo', 'Kode promo tidak valid');
+            return;
+        }
+
+        $this->promoData = $promo;
+        $this->promoApplied = true;
+
+        // Hitung diskon berdasarkan tipe promo
+        if ($promo->tipe === 'fix') {
+            $this->promoDiscount = $promo->diskon;
+        } else if ($promo->tipe === 'persen') {
+            $this->promoDiscount = ($this->paketfoto->harga_paket_foto * $promo->diskon) / 100;
+        }
+    }
+
+    public function getTotalPriceProperty()
+    {
+        $total = $this->paketfoto->harga_paket_foto;
+        if ($this->promoApplied) {
+            $total -= $this->promoDiscount;
+        }
+        return max(0, $total); // Pastikan total tidak negatif
+    }
+
     public function placeOrder()
     {
         $this->validate([
@@ -111,8 +153,8 @@ class BookingPage extends Component
             'nama' => $this->nama,
             'tanggal' => $this->tanggal,
             'waktu' => $this->waktu,
-            'promo_id' => null, // Logika promo bisa ditambahkan di sini
-            'total' => $this->paketfoto->harga_paket_foto,
+            'promo_id' => $this->promoData ? $this->promoData->id : null,
+            'total' => $this->totalPrice,
             'tipe_pembayaran' => $this->tipe_pembayaran,
             'metode_pembayaran' => 'transfer', // Default transfer, bisa diubah sesuai pilihan
         ]);
@@ -123,7 +165,7 @@ class BookingPage extends Component
             'warna' => $this->warna,
             'jumlah' => 1,
             'harga' => $this->paketfoto->harga_paket_foto,
-            'total_harga' => $this->paketfoto->harga_paket_foto,
+            'total_harga' => $this->totalPrice,
         ]);
 
         // Tampilkan pesan sukses dan redirect

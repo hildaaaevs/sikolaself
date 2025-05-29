@@ -56,13 +56,19 @@
               @foreach($booking->detail as $detail)
               <div class="flex justify-between w-full">
                 <p class="text-base leading-4 text-gray-800 dark:text-gray-400">{{ $detail->paketFoto->nama_paket_foto }}</p>
-                <p class="text-base leading-4 text-gray-600 dark:text-gray-400">Rp {{ number_format($detail->total_harga, 0, ',', '.') }}</p>
+                <p class="text-base leading-4 text-gray-600 dark:text-gray-400">Rp {{ number_format($detail->harga, 0, ',', '.') }}</p>
               </div>
               <div class="flex justify-between w-full">
                 <p class="text-base leading-4 text-gray-800 dark:text-gray-400">Background: {{ ucfirst($detail->warna) }}</p>
               </div>
               @endforeach
             </div>
+            @if($booking->promo)
+            <div class="flex items-center justify-between w-full">
+              <p class="text-base leading-4 text-gray-800 dark:text-gray-400">Promo: {{ $booking->promo->kode }}</p>
+              <p class="text-base leading-4 text-green-600 dark:text-green-400">- Rp {{ number_format($booking->detail->sum('harga') - $booking->total, 0, ',', '.') }}</p>
+            </div>
+            @endif
             <div class="flex items-center justify-between w-full">
               <p class="text-base font-semibold leading-4 text-gray-800 dark:text-gray-400">Total</p>
               <p class="text-base font-semibold leading-4 text-gray-600 dark:text-gray-400">Rp {{ number_format($booking->total, 0, ',', '.') }}</p>

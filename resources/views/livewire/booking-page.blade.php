@@ -89,9 +89,15 @@
                 Kode Promo (jika ada)
             </label>
             <div class="flex gap-2">
-                <input wire:model="promo" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none " id="promo" type="text" placeholder="Masukkan kode promo">
-                <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Terapkan</button>
+                <input wire:model="promo" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none @error('promo') border-red-500 @enderror" id="promo" type="text" placeholder="Masukkan kode promo">
+                <button type="button" wire:click="applyPromo" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Terapkan</button>
             </div>
+            @error('promo')
+                <div class="text-red-500 text-sm">{{ $message }}</div>
+            @enderror
+            @if($promoApplied)
+                <div class="text-green-500 text-sm mt-1">Promo berhasil diterapkan!</div>
+            @endif
         </div>
     </div>
 
@@ -210,25 +216,23 @@
                 @endif
               </span>
             </div>
-            <div class="flex justify-between mb-2 font-bold">
+            @if($promoApplied)
+            <div class="flex justify-between mb-2">
               <span>
-                Potongan
+                Potongan Promo
               </span>
-              <span>
-              {{ Number::currency(0, 'IDR') }}
+              <span class="text-green-500">
+                - {{ Number::currency($promoDiscount, 'IDR') }}
               </span>
             </div>
+            @endif
             <hr class="bg-slate-400 my-4 h-1 rounded">
             <div class="flex justify-between mb-2 font-bold">
               <span>
                 Grand Total
               </span>
               <span>
-              @if($paketfoto)
-                  {{ Number::currency($paketfoto->harga_paket_foto, 'IDR') }}
-                @else
-                  {{ Number::currency(0, 'IDR') }}
-                @endif
+                {{ Number::currency($this->totalPrice, 'IDR') }}
               </span>
             </div>
             </hr>

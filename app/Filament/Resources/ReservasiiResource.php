@@ -216,7 +216,6 @@ class ReservasiiResource extends Resource
                     ->color(fn (string $state): string => match (strtolower($state)) {
                         'full' => 'success',
                         'dp' => 'danger',
-                        default => 'secondary',
                     }),
 
                 Tables\Columns\TextColumn::make('metode_pembayaran')

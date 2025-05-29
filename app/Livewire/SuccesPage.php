@@ -17,7 +17,7 @@ class SuccesPage extends Component
         }
 
         // Ambil booking berdasarkan ID jika ada, jika tidak ambil yang terakhir
-        $this->booking = Reservasii::with(['user', 'detail.paketFoto'])
+        $this->booking = Reservasii::with(['user', 'detail.paketFoto', 'promo'])
             ->where('user_id', auth()->id())
             ->when($id, function($query) use ($id) {
                 return $query->where('id', $id);
