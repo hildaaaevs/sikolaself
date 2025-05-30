@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\CalendarReservationWidget;
 use App\Filament\Widgets\CalendarWidget;
+use App\Filament\Widgets\IncomeChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -46,6 +47,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 ReservasiiStats::class,
+                IncomeChart::class,
                 //CalendarWidget::class
                 //Widgets\AccountWidget::class,
                 //Widgets\FilamentInfoWidget::class,

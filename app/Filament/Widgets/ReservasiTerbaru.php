@@ -22,19 +22,15 @@ class ReservasiTerbaru extends BaseWidget
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('id')
-                ->label('ID')
-                ->searchable(),
+                ->label('ID'),
                 TextColumn::make('nama')
-                ->label('Nama')
-                ->searchable(),
+                ->label('Nama'),
                 TextColumn::make('detail.paketFoto.nama_paket_foto')
-                ->label('Paket Foto')
-                ->searchable(),
+                ->label('Paket Foto'),
                 TextColumn::make('tanggal')
                 ->label('Tanggal')
                 ->date('d F Y')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
                 TextColumn::make('waktu')
                 ->label('Jam')
                 ->time('H:i'),
