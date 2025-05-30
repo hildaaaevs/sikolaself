@@ -20,7 +20,7 @@ class PaketFotoSeeder extends Seeder
                 'nama_paket_foto' => 'Paket Pasangan',
                 'harga_paket_foto' => '75000',
                 'fasilitas' => '20 menit foto, 1x cetak foto single frame',
-                'gambar' => '01JMC5FASB77HCJQHGNNS56X3P.jpg',
+                'gambar' => '.jpg',
                 'status' => true,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -40,7 +40,7 @@ class PaketFotoSeeder extends Seeder
                 'nama_paket_foto' => 'Widebox Couple',
                 'harga_paket_foto' => '50000',
                 'fasilitas' => '10 menit foto, 1x cetak foto 4R',
-                'gambar' => 'platinum.jpg',
+                'gambar' => 'pasangan.jpg',
                 'status' => true,
                 'created_at' => now(),
                 'updated_at' => now()

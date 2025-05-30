@@ -32,6 +32,8 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\BelongsToSelect;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Forms\Components\Modal;
 
 class ReservasiiResource extends Resource
 {
@@ -239,15 +241,36 @@ class ReservasiiResource extends Resource
                     EditAction::make(),
                     DeleteAction::make()
                 ])
-                ]);
-            }
-           // ->bulkActions([
-                //Tables\Actions\BulkActionGroup::make([
-                    //Tables\Actions\DeleteBulkAction::make(),
-                //]),
-           // ])
-            //->defaultSort('created_at', 'desc');
-            
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('downloadPdf')
+                    ->label('Download PDF')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->form([
+                        DatePicker::make('start_date')
+                            ->label('Tanggal Mulai')
+                            ->required(),
+                        DatePicker::make('end_date')
+                            ->label('Tanggal Selesai')
+                            ->required(),
+                    ])
+                    ->action(function (array $data) {
+                        $reservasis = Reservasii::with(['user', 'detail.paketFoto'])
+                            ->whereBetween('tanggal', [$data['start_date'], $data['end_date']])
+                            ->get();
+                        
+                        $pdf = Pdf::loadView('pdf.reservasi', [
+                            'reservasis' => $reservasis,
+                            'start_date' => $data['start_date'],
+                            'end_date' => $data['end_date']
+                        ]);
+                        
+                        return response()->streamDownload(function () use ($pdf) {
+                            echo $pdf->output();
+                        }, 'reservasi.pdf');
+                    })
+            ]);
+    }
 
     public static function getRelations(): array
     {

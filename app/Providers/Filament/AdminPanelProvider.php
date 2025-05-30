@@ -23,6 +23,8 @@ use App\Filament\Widgets\CalendarWidget;
 
 class AdminPanelProvider extends PanelProvider
 {
+    protected static ?string $navigationLabel = 'Dashboard';
+
     public function panel(Panel $panel): Panel
     {
         return $panel

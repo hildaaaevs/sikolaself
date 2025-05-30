@@ -43,7 +43,7 @@
         <!-- Submit Button -->
         <button type="submit" class="w-full py-3 px-4 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700">Login</button>
 
-        <p class="text-sm text-center text-gray-600">Sudah punya akun? <a href="/register" class="text-blue-600 hover:underline">Daftar</a></p>
+        <p class="text-sm text-center text-gray-600">Belum punya akun? <a href="/register" class="text-blue-600 hover:underline">Daftar</a></p>
       </form>
     </>
   </div>
