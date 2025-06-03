@@ -49,7 +49,7 @@
             
           </div>
           <!-- pagination start -->
-          <div class="flex justify-end mt-6">
+          <div class="flex justify-end mt-8 mb-4 px-4">
             {{ $paketfoto->links() }}
           </div>
           <!-- pagination end -->
