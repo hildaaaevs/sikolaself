@@ -34,6 +34,7 @@ use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\BelongsToSelect;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Components\Modal;
+use Filament\Forms\Components\FileUpload;
 
 class ReservasiiResource extends Resource
 {
@@ -69,7 +70,6 @@ class ReservasiiResource extends Resource
                                 ->options([
                                     'tunai' => 'Tunai',
                                     'transfer' => 'Transfer Bank',
-                                    'wallet' => 'E-Wallet',
                                 ])
                                 ->required(),
                             Radio::make('tipe_pembayaran')
@@ -79,6 +79,25 @@ class ReservasiiResource extends Resource
                                     'dp' => 'DP',
                                 ])
                                 ->required(),
+                            Select::make('status_pembayaran')
+                                ->label('Status Pembayaran')
+                                ->options([
+                                    'pending' => 'Pending',
+                                    'approved' => 'Approved',
+                                    'rejected' => 'Rejected',
+                                ])
+                                ->required()
+                                ->default('pending'),
+                            FileUpload::make('bukti_pembayaran')
+                                ->label('Bukti Pembayaran')
+                                ->image()
+                                ->directory('bukti-pembayaran')
+                                ->visibility('public')
+                                ->imageResizeMode('cover')
+                                ->imageCropAspectRatio('16:9')
+                                ->imageResizeTargetWidth('1920')
+                                ->imageResizeTargetHeight('1080')
+                                ->columnSpanFull(),
                         ])
                     ])->columnSpan(1),
                      
@@ -100,7 +119,7 @@ class ReservasiiResource extends Resource
                             DatePicker::make('tanggal')
                                 ->label('Tanggal')
                                 ->required(),
-                                Select::make('waktu')
+                            Select::make('waktu')
                                 ->label('Pilih Jam')
                                 ->options(
                                     collect(range(8, 23))->mapWithKeys(function ($hour) {
@@ -109,6 +128,9 @@ class ReservasiiResource extends Resource
                                     })->toArray()
                                 )
                                 ->required()
+                                ->disabled()
+                                ->dehydrated()
+                                ->default(fn ($record) => $record?->waktu),
                         ]),
                     ])->columnSpan(1),
 
@@ -220,8 +242,19 @@ class ReservasiiResource extends Resource
                         'dp' => 'danger',
                     }),
 
-                Tables\Columns\TextColumn::make('metode_pembayaran')
-                    ->badge(),
+                Tables\Columns\TextColumn::make('status_pembayaran')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match (strtolower($state)) {
+                        'pending' => 'warning',
+                        'approved' => 'success',
+                        'rejected' => 'danger',
+                    }),
+
+                Tables\Columns\ImageColumn::make('bukti_pembayaran')
+                    ->label('Bukti Pembayaran')
+                    ->size(100),
+                
             ])
             ->filters([
                 Tables\Filters\Filter::make('tanggal')
@@ -234,6 +267,13 @@ class ReservasiiResource extends Resource
                             fn (Builder $query, $date): Builder => $query->whereDate('tanggal', $date),
                         );
                     }),
+                Tables\Filters\SelectFilter::make('status_pembayaran')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'rejected' => 'Rejected',
+                    ])
+                    ->label('Status Pembayaran'),
             ])
             ->actions([
                 ActionGroup::make([
@@ -281,20 +321,20 @@ class ReservasiiResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        // Hitung jumlah reservasi dengan tipe pembayaran 'dp'
-        $dpCount = static::getModel()::where('tipe_pembayaran', 'dp')->count();
+        // Hitung jumlah reservasi dengan status pending
+        $pendingCount = static::getModel()::where('status_pembayaran', 'pending')->count();
         
         // Kembalikan jumlah jika ada, null jika tidak ada
-        return $dpCount > 0 ? (string) $dpCount : null;
+        return $pendingCount > 0 ? (string) $pendingCount : null;
     }
 
     public static function getNavigationBadgeColor(): ?string 
     {
-        // Hitung jumlah reservasi dengan tipe pembayaran 'dp'
-        $dpCount = static::getModel()::where('tipe_pembayaran', 'dp')->count();
+        // Hitung jumlah reservasi dengan status pending
+        $pendingCount = static::getModel()::where('status_pembayaran', 'pending')->count();
         
-        // Kembalikan warna merah jika ada reservasi DP
-        return $dpCount > 0 ? 'danger' : null;
+        // Kembalikan warna warning jika ada reservasi pending
+        return $pendingCount > 0 ? 'warning' : null;
     }
 
     public static function getPages(): array

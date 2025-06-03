@@ -12,6 +12,7 @@ use App\Livewire\Histori;
 use App\Livewire\HomePage;
 use App\Livewire\PaketFotoPage;
 use App\Livewire\SuccesPage;
+use App\Livewire\UploadBuktiPembayaran;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomePage::class)->name('home');
@@ -39,8 +40,9 @@ Route::middleware('auth')->group(function(){
     });
     Route::get('/booking', BookingPage::class);
     Route::get('/booking/{id}', BookingPage::class)->name('booking');
-    Route::get('/histori', Histori::class);
+    Route::get('/histori', Histori::class)->name('histori');
     Route::get('/cart', CartPage::class);
     Route::get('/success/{id?}', SuccesPage::class)->name('booking.success');
     Route::get('/cancel', CancelPage::class);
+    Route::get('/upload-bukti-pembayaran/{id}', UploadBuktiPembayaran::class)->name('upload.bukti.pembayaran');
 });

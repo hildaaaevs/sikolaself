@@ -27,18 +27,16 @@ class PaketFotoPage extends Component
 
     public function render()
     {
-        $paketfotoQuery = PaketFoto::query()->where('status', 1);
+        $paketfoto = PaketFoto::when($this->sort === 'price', function($query) {
+            return $query->orderBy('harga_paket_foto', 'asc');
+        })
+        ->when($this->sort === 'latest', function($query) {
+            return $query->latest();
+        })
+        ->paginate(6);
 
-        if($this->sort == 'latest') {
-            $paketfotoQuery->latest();
-        }
-
-        if($this->sort == 'price') {
-            $paketfotoQuery->orderBy('harga_paket_foto');
-        }
-        
         return view('livewire.paket-foto-page', [
-            'paketfoto' => $paketfotoQuery->paginate(6),
+            'paketfoto' => $paketfoto
         ]);
     }
 }

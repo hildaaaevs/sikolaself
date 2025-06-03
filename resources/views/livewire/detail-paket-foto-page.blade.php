@@ -47,7 +47,7 @@
             <div class="w-32 mb-8 ">
             <div class="flex flex-col items-start">
               <a href="{{ route('booking', ['id' => $paketfoto->id]) }}" class="px-6 py-3 bg-blue-500 rounded-md text-white hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-700">
-                Booking
+                Reservasi
               </a>
             </div>
               {{-- <label for="" class="w-full pb-1 text-xl font-semibold text-gray-700 border-b border-blue-300 dark:border-gray-600 dark:text-gray-400">Quantity</label> 

@@ -41,9 +41,6 @@ class ReservasiTerbaru extends BaseWidget
                     'full' => 'succes',
                     'DP' => 'danger'
                 }),
-                TextColumn::make('metode_pembayaran')
-                ->label('Metode Pembayaran')
-                ->badge(),
                 TextColumn::make('created_at')
                 ->label('Waktu Reservasi')
             ])

@@ -21,7 +21,7 @@
 
         <!-- Email -->
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Email address</label>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Alamat Email</label>
           <input type="email" id="email" wire:model="email" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
           @error('email')
           <p class="text-xs text-red-600 mt-2" id="email-error">{{ $message }}</p>

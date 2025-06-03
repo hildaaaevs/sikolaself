@@ -159,6 +159,7 @@ class BookingPage extends Component
             'total' => $this->totalPrice,
             'tipe_pembayaran' => $this->tipe_pembayaran,
             'metode_pembayaran' => 'transfer', // Default transfer, bisa diubah sesuai pilihan
+            'status_pembayaran' => 'pending'
         ]);
 
         // Membuat detail reservasi
@@ -170,10 +171,9 @@ class BookingPage extends Component
             'total_harga' => $this->totalPrice,
         ]);
 
-        // Tampilkan pesan sukses dan redirect
-        session()->flash('message', 'Booking berhasil dibuat! Silahkan lakukan pembayaran sesuai metode yang dipilih.');
-        session()->flash('booking_name', $this->nama);
-        return redirect()->route('booking.success');
+        // Tampilkan pesan sukses dan redirect ke halaman upload bukti pembayaran
+        session()->flash('message', 'Booking berhasil dibuat! Silahkan upload bukti pembayaran.');
+        return redirect()->route('upload.bukti.pembayaran', $reservasi->id);
     }
 
     public function render()

@@ -29,6 +29,11 @@ class SuccesPage extends Component
             session()->flash('error', 'Tidak ada data booking yang ditemukan');
             return redirect()->route('home');
         }
+
+        // Jika status pending dan belum ada bukti pembayaran, redirect ke halaman upload
+        if ($this->booking->status_pembayaran === 'pending' && !$this->booking->bukti_pembayaran) {
+            return redirect()->route('upload.bukti.pembayaran', $this->booking->id);
+        }
             
         // Ambil nama dari session
         $this->bookingName = session('booking_name');

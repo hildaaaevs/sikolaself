@@ -1,6 +1,6 @@
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
 	<h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-		Booking 
+		Reservasi 
 	</h1>
 	<form wire:submit.prevent="placeOrder">
   <div class="grid grid-cols-12 gap-4">
@@ -14,7 +14,7 @@
           </h2>
           <div class="mt-4">
               <label class="block text-gray-700 dark:text-white mb-1" for="nama">
-                  Nama Lengkap
+                  Nama
               </label>
               <input wire:model="nama" class="w-full rounded-lg border py-2 px-3 
               dark:bg-gray-700 dark:text-white dark:border-none @error('nama') border-red-500 @enderror " id="nama" type="text">
@@ -120,7 +120,6 @@
       </h2>
       <!-- Pilih Tipe Pembayaran -->
       <div class="mt-4">
-        <label class="block text-gray-700 dark:text-white mb-1">Tipe Pembayaran</label>
         <ul class="grid w-full gap-4 md:grid-cols-2">
           <li>
             <input wire:model="tipe_pembayaran" class="hidden peer" id="payment-dp" name="payment_type" type="radio" value="dp" required />
@@ -128,7 +127,7 @@
             hover:bg-gray-100 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:bg-gray-800 dark:text-gray-400 dark:peer-checked:text-blue-500 dark:border-gray-700 dark:hover:bg-gray-700">
               <div class="block">
                 <div class="text-lg font-semibold">Down Payment</div>
-                <div class="text-sm">Bayar DP terlebih dahulu</div>
+                <div class="text-sm">DP min. Rp 20.000</div>
               </div>
             </label>
           </li>
@@ -182,7 +181,7 @@
             <hr class="bg-slate-400 my-4 h-1 rounded">
             <div class="flex justify-between mb-2 font-bold">
               <span>
-                Grand Total
+                Total Harga
               </span>
               <span>
                 {{ Number::currency($this->totalPrice, 'IDR') }}
@@ -191,7 +190,7 @@
             </hr>
           </div>
           <button type="submit" class="bg-gray-500 mt-4 w-full p-3 rounded-lg text-lg text-white hover:bg-gray-600">
-            Booking Sekarang
+            Reservasi Sekarang
           </button>
           <div class="bg-white mt-4 rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
             <div class="text-xl font-bold underline text-gray-700 dark:text-white mb-2">

@@ -17,7 +17,9 @@ class Reservasii extends Model
         'promo_id',
         'total',
         'tipe_pembayaran',
-        'metode_pembayaran'
+        'metode_pembayaran',
+        'bukti_pembayaran',
+        'status_pembayaran'
     ];
 
     protected $casts = [

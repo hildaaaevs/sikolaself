@@ -21,6 +21,8 @@ return new class extends Migration
             $table->decimal('total',10 , 2);
             $table->enum('tipe_pembayaran',['full','DP']);
             $table->string('metode_pembayaran');
+            $table->string('bukti_pembayaran')->nullable();
+            $table->enum('status_pembayaran', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
