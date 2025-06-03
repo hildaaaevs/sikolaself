@@ -6,11 +6,16 @@ use App\Models\PaketFoto;
 use App\Models\Reservasii;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 #[Title('Booking - SiKolaself')]
 class BookingPage extends Component
 {
     public $paketfoto;
+    public $selectedPakets = [];
+    public $showModal = false;
+    public $search = '';
+    public $pakets;
     public $nama = '';
     public $tanggal = '';
     public $waktu = '';
@@ -27,13 +32,80 @@ class BookingPage extends Component
     {
         if ($id) {
             $this->paketfoto = PaketFoto::findOrFail($id);
+            $this->selectedPakets[] = [
+                'id' => $this->paketfoto->id,
+                'nama' => $this->paketfoto->nama_paket_foto,
+                'harga' => $this->paketfoto->harga_paket_foto,
+                'gambar' => $this->paketfoto->gambar,
+                'warna' => ''
+            ];
         } else {
             $this->paketfoto = PaketFoto::first();
         }
         
-        // Set tanggal default ke hari ini
         $this->tanggal = now()->format('Y-m-d');
         $this->updateUnavailableTimes();
+        $this->loadPakets();
+    }
+
+    public function loadPakets()
+    {
+        $this->pakets = PaketFoto::where('nama_paket_foto', 'like', '%' . $this->search . '%')
+            ->get();
+    }
+
+    public function updatedSearch()
+    {
+        $this->loadPakets();
+    }
+
+    #[On('paket-added')]
+    public function handlePaketAdded($paketId)
+    {
+        $paket = PaketFoto::find($paketId);
+        if ($paket) {
+            // Cek apakah paket sudah ada di selectedPakets
+            $exists = collect($this->selectedPakets)->contains('id', $paket->id);
+            if (!$exists) {
+                $this->selectedPakets[] = [
+                    'id' => $paket->id,
+                    'nama' => $paket->nama_paket_foto,
+                    'harga' => $paket->harga_paket_foto,
+                    'gambar' => $paket->gambar,
+                    'warna' => ''
+                ];
+            }
+        }
+    }
+
+    public function addPaket($paketId)
+    {
+        $paket = PaketFoto::find($paketId);
+        if ($paket) {
+            // Cek apakah paket sudah ada di selectedPakets
+            $exists = collect($this->selectedPakets)->contains('id', $paket->id);
+            if (!$exists) {
+                $this->selectedPakets[] = [
+                    'id' => $paket->id,
+                    'nama' => $paket->nama_paket_foto,
+                    'harga' => $paket->harga_paket_foto,
+                    'gambar' => $paket->gambar,
+                    'warna' => ''
+                ];
+            }
+        }
+        $this->showModal = false;
+    }
+
+    public function removePaket($index)
+    {
+        unset($this->selectedPakets[$index]);
+        $this->selectedPakets = array_values($this->selectedPakets);
+    }
+
+    public function updatePaketWarna($index, $warna)
+    {
+        $this->selectedPakets[$index]['warna'] = $warna;
     }
 
     public function updatedTanggal()
@@ -117,11 +189,11 @@ class BookingPage extends Component
 
     public function getTotalPriceProperty()
     {
-        $total = $this->paketfoto->harga_paket_foto;
+        $total = collect($this->selectedPakets)->sum('harga');
         if ($this->promoApplied) {
             $total -= $this->promoDiscount;
         }
-        return max(0, $total); // Pastikan total tidak negatif
+        return max(0, $total);
     }
 
     public function placeOrder()
@@ -133,6 +205,7 @@ class BookingPage extends Component
             'warna' => 'required',
             'promo' => '',
             'tipe_pembayaran' => 'required',
+            'selectedPakets' => 'required|array|min:1',
         ], [
             'nama.required' => 'Nama lengkap harus diisi',
             'nama.min' => 'Nama lengkap minimal 3 karakter',
@@ -141,15 +214,15 @@ class BookingPage extends Component
             'waktu.required' => 'Waktu booking harus dipilih',
             'warna.required' => 'Background harus dipilih',
             'tipe_pembayaran.required' => 'Tipe pembayaran harus dipilih',
+            'selectedPakets.required' => 'Pilih minimal satu paket foto',
+            'selectedPakets.min' => 'Pilih minimal satu paket foto',
         ]);
 
-        // Validasi waktu yang dipilih
         if (in_array($this->waktu, $this->unavailableTimes)) {
             $this->addError('waktu', 'Waktu yang dipilih tidak tersedia');
             return;
         }
 
-        // Membuat reservasi baru
         $reservasi = Reservasii::create([
             'user_id' => auth()->id(),
             'nama' => $this->nama,
@@ -158,20 +231,20 @@ class BookingPage extends Component
             'promo_id' => $this->promoData ? $this->promoData->id : null,
             'total' => $this->totalPrice,
             'tipe_pembayaran' => $this->tipe_pembayaran,
-            'metode_pembayaran' => 'transfer', // Default transfer, bisa diubah sesuai pilihan
+            'metode_pembayaran' => 'transfer',
             'status_pembayaran' => 'pending'
         ]);
 
-        // Membuat detail reservasi
-        $reservasi->detail()->create([
-            'paket_foto_id' => $this->paketfoto->id,
-            'warna' => $this->warna,
-            'jumlah' => 1,
-            'harga' => $this->paketfoto->harga_paket_foto,
-            'total_harga' => $this->totalPrice,
-        ]);
+        foreach ($this->selectedPakets as $paket) {
+            $reservasi->detail()->create([
+                'paket_foto_id' => $paket['id'],
+                'warna' => $this->warna,
+                'jumlah' => 1,
+                'harga' => $paket['harga'],
+                'total_harga' => $paket['harga'],
+            ]);
+        }
 
-        // Tampilkan pesan sukses dan redirect ke halaman upload bukti pembayaran
         session()->flash('message', 'Booking berhasil dibuat! Silahkan upload bukti pembayaran.');
         return redirect()->route('upload.bukti.pembayaran', $reservasi->id);
     }

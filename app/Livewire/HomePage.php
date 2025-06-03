@@ -12,7 +12,7 @@ class HomePage extends Component
 {
     public function render()
     {  
-        $paketfoto = PaketFoto::where('status', 1)->get();
+        $paketfoto = PaketFoto::where('status', 1)->take(4)->get();
         return view('livewire.home-page', [
             'paketfoto' => $paketfoto
         ]);
