@@ -16,7 +16,7 @@ class PaketFotoPage extends Component
     use WithPagination;
 
     #[Url]
-    public $sort = 'latest';
+    public $sort = 'oldest';
 
     // tambah
     //public function addToCart($paketfoto_id){
@@ -32,6 +32,9 @@ class PaketFotoPage extends Component
         })
         ->when($this->sort === 'latest', function($query) {
             return $query->latest();
+        })
+        ->when($this->sort === 'oldest', function($query) {
+            return $query->oldest();
         })
         ->paginate(6);
 

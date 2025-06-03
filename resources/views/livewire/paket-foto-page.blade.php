@@ -7,6 +7,7 @@
             <div class="items-center justify-between hidden px-3 py-2 bg-gray-100 md:flex dark:bg-gray-900 ">
               <div class="flex items-center justify-between">
                 <select wire:model.live="sort" id="" class="block w-40 text-base bg-gray-100 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                  <option value="oldest">Terlama</option>
                   <option value="latest">Terbaru</option>
                   <option value="price">Harga</option>
                 </select>
