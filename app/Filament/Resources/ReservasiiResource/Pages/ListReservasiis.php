@@ -27,12 +27,21 @@ class ListReservasiis extends ListRecords
     //}
 
     public function getTabs(): array{
-        return[
-            null => \Filament\Resources\Components\Tab::make('Semua'),
-            'Paket Pasangan' => \Filament\Resources\Components\Tab::make()->query(fn($query) => $query->whereRelation('detail.paketFoto', 'nama_paket_foto', 'Paket Pasangan')),
-            'Paket 5 orang' => \Filament\Resources\Components\Tab::make()->query(fn($query) => $query->whereRelation('detail.paketFoto', 'nama_paket_foto', 'Paket 5 Orang')),
-            'Widebox Couple' => \Filament\Resources\Components\Tab::make()->query(fn($query) => $query->whereRelation('detail.paketFoto', 'nama_paket_foto', 'Widebox Couple')),
-            'Widebox Group' => \Filament\Resources\Components\Tab::make()->query(fn($query) => $query->whereRelation('detail.paketFoto', 'nama_paket_foto', 'Widebox Group')),
+        $paketFotos = \App\Models\PaketFoto::orderBy('nama_paket_foto')->get();
+        
+        $tabs = [
+            null => \Filament\Resources\Components\Tab::make('Semua Paket')
+                ->badge(fn () => \App\Models\Reservasii::count())
+                ->icon('heroicon-o-photo'),
         ];
+
+        foreach ($paketFotos as $paketFoto) {
+            $tabs[$paketFoto->id] = \Filament\Resources\Components\Tab::make($paketFoto->nama_paket_foto)
+                ->query(fn($query) => $query->whereRelation('detail.paketFoto', 'nama_paket_foto', $paketFoto->nama_paket_foto))
+                ->badge(fn () => \App\Models\Reservasii::whereRelation('detail.paketFoto', 'nama_paket_foto', $paketFoto->nama_paket_foto)->count())
+                ->icon('heroicon-o-camera');
+        }
+
+        return $tabs;
     }
 }

@@ -25,7 +25,8 @@ class Reservasii extends Model
     protected $casts = [
         'tanggal' => 'date',
         'waktu' => 'datetime',
-        'total' => 'decimal:2'
+        'total' => 'decimal:2',
+        'bukti_pembayaran' => 'array'
     ];
 
     public function user()

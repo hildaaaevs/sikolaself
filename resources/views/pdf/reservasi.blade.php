@@ -71,7 +71,7 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $reservasi->nama }}</td>
                 <td>{{ $reservasi->tanggal->format('d F Y') }}</td>
-                <td>{{ $reservasi->waktu }}</td>
+                <td>{{ \Carbon\Carbon::parse($reservasi->waktu)->format('H:i') }}</td>
                 <td>
                     @foreach($reservasi->detail as $detail)
                         {{ $detail->paketFoto->nama_paket_foto }}<br>

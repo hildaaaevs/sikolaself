@@ -2,9 +2,26 @@
     <div class="flex items-center font-poppins">
         <div class="w-full px-4 py-4 mx-auto bg-white border rounded-lg shadow-sm">
             <div>
-                <h1 class="mb-6 text-xl font-semibold text-gray-700">
-                    Upload Bukti Pembayaran
-                </h1>
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-xl font-semibold text-gray-700">
+                        Upload Bukti Pembayaran
+                    </h1>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-600">Sisa Waktu</p>
+                        <p class="font-medium text-red-600" 
+                           x-data="{ 
+                               timeLeft: {{ $this->timeLeft }},
+                               formatTime(seconds) {
+                                   const minutes = Math.floor(seconds / 60);
+                                   const remainingSeconds = Math.floor(seconds % 60);
+                                   return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+                               }
+                           }" 
+                           x-init="setInterval(() => { if(timeLeft > 0) timeLeft--; }, 1000)"
+                           x-text="formatTime(timeLeft)">
+                        </p>
+                    </div>
+                </div>
 
                 <!-- Informasi Pelanggan -->
                 <div class="mb-6 p-4 bg-gray-50 rounded-lg">
@@ -61,8 +78,8 @@
                         <div>
                             <p class="text-sm text-gray-600">Jumlah yang Harus Dibayar</p>
                             <p class="font-medium">
-                                @if($booking->tipe_pembayaran === 'dp')
-                                    Rp {{ number_format(max(20000, $booking->total * 0.3), 0, ',', '.') }}
+                                @if(strtolower($booking->tipe_pembayaran) === 'dp')
+                                    Rp {{ number_format(20000, 0, ',', '.') }}
                                     <span class="text-xs text-gray-500 block">(Minimal 30% atau Rp 20.000)</span>
                                 @else
                                     Rp {{ number_format($booking->total, 0, ',', '.') }}
@@ -73,8 +90,8 @@
                         @if($booking->metode_pembayaran === 'transfer')
                             <div class="md:col-span-2">
                                 <p class="text-sm text-gray-600">Nomor Rekening</p>
-                                <p class="font-medium">1234567890 (Bank BCA)</p>
-                                <p class="text-xs text-gray-500">a.n. Nama Studio Foto</p>
+                                <p class="font-medium">116101022592507 (Bank BRI)</p>
+                                <p class="text-xs text-gray-500">a.n. Adella Novita</p>
                             </div>
                         @endif
                     </div>

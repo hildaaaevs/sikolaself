@@ -118,8 +118,9 @@ class BookingPage extends Component
     {
         if ($this->tanggal) {
             // Ambil waktu yang sudah dipesan dari database untuk tanggal yang dipilih
-            // dan paket foto yang sama
+            // dan paket foto yang sama, hanya yang statusnya approved
             $this->bookedTimes = Reservasii::where('tanggal', $this->tanggal)
+                ->where('status_pembayaran', 'approved') // Hanya ambil yang sudah approved
                 ->whereHas('detail', function($query) {
                     $query->where('paket_foto_id', $this->paketfoto->id);
                 })

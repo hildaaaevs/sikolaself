@@ -35,6 +35,7 @@ use Filament\Forms\Components\BelongsToSelect;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Components\Modal;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Facades\Storage;
 
 class ReservasiiResource extends Resource
 {
@@ -97,6 +98,12 @@ class ReservasiiResource extends Resource
                                 ->imageCropAspectRatio('16:9')
                                 ->imageResizeTargetWidth('1920')
                                 ->imageResizeTargetHeight('1080')
+                                ->preserveFilenames()
+                                ->downloadable()
+                                ->openable()
+                                ->deleteUploadedFileUsing(function ($file) {
+                                    Storage::disk('public')->delete($file);
+                                })
                                 ->columnSpanFull(),
                         ])
                     ])->columnSpan(1),
@@ -216,8 +223,7 @@ class ReservasiiResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nama')
-                    ->label('Nama')
-                    ->searchable(),
+                    ->label('Nama'),
 
                 Tables\Columns\TextColumn::make('tanggal')
                     ->date('d F Y')
@@ -229,8 +235,7 @@ class ReservasiiResource extends Resource
 
                 Tables\Columns\TextColumn::make('detail.paketFoto.nama_paket_foto')
                     ->label('Paket Foto')
-                    ->listWithLineBreaks()
-                    ->searchable(),
+                    ->listWithLineBreaks(),
 
                 Tables\Columns\TextColumn::make('total')
                     ->money('IDR'),
