@@ -29,7 +29,7 @@
               <div class="grid gap-y-4">
                 <!-- Form Group -->
                 <div>
-                  <label for="email" class="block text-sm mb-2 dark:text-white">Email address</label>
+                  <label for="email" class="block text-sm mb-2 dark:text-white">Alamat Email</label>
                   <div class="relative">
                     <input type="email" id="email" wire:model="email" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 
                     disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" aria-describedby="email-error">

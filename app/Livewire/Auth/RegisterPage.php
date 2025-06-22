@@ -23,18 +23,17 @@ class RegisterPage extends Component
         ]);
         
         // save to database
-        $user = User::create([
+        User::create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password)
         ]);
 
-        // login user
-        auth()->login($user);
+        // set success message
+        session()->flash('success', 'Registrasi berhasil! Silakan login untuk melanjutkan.');
 
-        // redirect to home page
-        return redirect()->intended();
-
+        // redirect to login page
+        return redirect()->route('login');
     }
     public function render()
     {

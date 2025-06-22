@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\ReservasiApproved;
+use Illuminate\Support\Facades\Log;
 
 class Reservasii extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
     
     protected $fillable = [
         'user_id',
@@ -24,9 +27,8 @@ class Reservasii extends Model
 
     protected $casts = [
         'tanggal' => 'date',
-        'waktu' => 'datetime',
-        'total' => 'decimal:2',
-        'bukti_pembayaran' => 'array'
+        'waktu' => 'string',
+        'total' => 'decimal:2'
     ];
 
     public function user()
@@ -44,6 +46,21 @@ class Reservasii extends Model
     public function paketFoto()
     {
         return $this->belongsTo(PaketFoto::class);
+    }
+
+    protected static function booted()
+    {
+        static::updated(function ($reservasi) {
+            if ($reservasi->isDirty('status_pembayaran') && $reservasi->status_pembayaran === 'approved') {
+                Log::info('Mencoba mengirim notifikasi email untuk reservasi ID: ' . $reservasi->id);
+                try {
+                    $reservasi->notify(new ReservasiApproved($reservasi));
+                    Log::info('Notifikasi email berhasil dikirim untuk reservasi ID: ' . $reservasi->id);
+                } catch (\Exception $e) {
+                    Log::error('Gagal mengirim notifikasi email: ' . $e->getMessage());
+                }
+            }
+        });
     }
 }
     

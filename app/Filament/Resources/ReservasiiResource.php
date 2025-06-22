@@ -79,7 +79,9 @@ class ReservasiiResource extends Resource
                                     'full' => 'Full',
                                     'dp' => 'DP',
                                 ])
-                                ->required(),
+                                ->required()
+                                ->default('full')
+                                ->inline(),
                             Select::make('status_pembayaran')
                                 ->label('Status Pembayaran')
                                 ->options([
@@ -94,10 +96,6 @@ class ReservasiiResource extends Resource
                                 ->image()
                                 ->directory('bukti-pembayaran')
                                 ->visibility('public')
-                                ->imageResizeMode('cover')
-                                ->imageCropAspectRatio('16:9')
-                                ->imageResizeTargetWidth('1920')
-                                ->imageResizeTargetHeight('1080')
                                 ->preserveFilenames()
                                 ->downloadable()
                                 ->openable()
@@ -171,7 +169,7 @@ class ReservasiiResource extends Resource
                                                 'cream' => 'Cream',
                                                 'spotlight' => 'Spotlight'
                                             ])
-                                            ->columnSpan(2), // Lebih kecil karena opsinya sedikit
+                                            ->columnSpan(2),
                     
                                         TextInput::make('jumlah')
                                             ->numeric()
@@ -208,11 +206,33 @@ class ReservasiiResource extends Resource
                             foreach ($repeaters as $key => $repeater){
                                 $total += $get("detail.{$key}.total_harga");
                             }
+                            
+                            // Hitung diskon jika ada promo
+                            $diskon = 0;
+                            if ($promoId = $get('promo_id')) {
+                                $promo = \App\Models\Promo::find($promoId);
+                                if ($promo && $promo->aktif) {
+                                    if ($promo->tipe === 'fix') {
+                                        $diskon = $promo->diskon;
+                                    } else if ($promo->tipe === 'persen') {
+                                        $diskon = ($total * $promo->diskon) / 100;
+                                    }
+                                }
+                            }
+                            
+                            $totalSetelahDiskon = $total - $diskon;
                             $set('total', $total);
-                            return 'Rp ' . number_format($total, 0, ',', '.');
+                            $set('diskon', $diskon);
+                            $set('total_setelah_diskon', $totalSetelahDiskon);
+                            
+                            return 'Rp ' . number_format($totalSetelahDiskon, 0, ',', '.');
                         }),
                         Hidden::make('total')
-                        ->default(0)
+                        ->default(0),
+                        Hidden::make('diskon')
+                        ->default(0),
+                        Hidden::make('total_setelah_diskon')
+                        ->default(0),
                     ])->columnSpanFull(),
                                 ])
             ]);
@@ -221,6 +241,7 @@ class ReservasiiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('nama')
                     ->label('Nama'),

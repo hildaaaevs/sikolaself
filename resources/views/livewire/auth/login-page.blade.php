@@ -13,6 +13,12 @@
       <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Login</h1>
       <form wire:submit.prevent="save" class="space-y-6">
 
+        @if (session('success'))
+        <div class="bg-green-500 text-white p-4 rounded-lg text-sm mb-4" role="alert">
+          {{ session('success') }}
+        </div>
+        @endif
+
         @if (session('error'))
         <div class="bg-red-500 text-white p-4 rounded-lg text-sm mb-4" role="alert">
           {{ session('error') }}
@@ -32,7 +38,7 @@
         <div>
           <div class="flex justify-between items-center mb-1">
             <label for="password" class="block text-sm font-medium text-gray-700 dark:text-white">Password</label>
-            {{--<a href="/forgot" class="text-sm text-blue-600 hover:underline">Lupa password?</a>--}}
+            <a href="/forgot" class="text-sm text-blue-600 hover:underline">Lupa password?</a>
           </div>
           <input type="password" id="password" wire:model="password" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
           @error('password')
@@ -45,6 +51,5 @@
 
         <p class="text-sm text-center text-gray-600">Belum punya akun? <a href="/register" class="text-blue-600 hover:underline">Daftar</a></p>
       </form>
-    </>
   </div>
 </div>

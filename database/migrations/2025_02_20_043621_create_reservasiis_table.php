@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('metode_pembayaran');
             $table->string('bukti_pembayaran')->nullable();
             $table->enum('status_pembayaran', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->decimal('diskon', 10, 2)->default(0);
+            $table->decimal('total_setelah_diskon', 10, 2)->default(0);
             $table->timestamps();
         });
     }

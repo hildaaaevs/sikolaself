@@ -54,4 +54,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->email == 'admin@gmail.com';
     }
+
+    public function routeNotificationForMail()
+    {
+        return $this->email;
+    }
 }

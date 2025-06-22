@@ -67,7 +67,7 @@ class UploadBuktiPembayaran extends Component
         }
 
         $createdAt = Carbon::parse($this->booking->created_at);
-        $expiryTime = $createdAt->addMinutes(5);
+        $expiryTime = $createdAt->addMinutes(1);
         return max(0, Carbon::now()->diffInSeconds($expiryTime));
     }
 
