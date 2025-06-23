@@ -4,7 +4,7 @@
       <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <div class="p-4 sm:p-7">
           <div class="text-center">
-            <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Reset password</h1>
+            <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Reset Password</h1>
           </div>
 
           @if (session()->has('error'))
@@ -62,7 +62,7 @@
                   @enderror
                 </div>
 
-                <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-600 text-white hover:bg-gray-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                   <span wire:loading.remove>Simpan Password</span>
                   <span wire:loading>Simpan Password</span>
                 </button>
