@@ -59,6 +59,20 @@ class Reservasii extends Model
                 } catch (\Exception $e) {
                     Log::error('Gagal mengirim notifikasi email: ' . $e->getMessage());
                 }
+
+                // Otomatis reject reservasi lain yang bentrok
+                $paketFotoIds = $reservasi->detail()->pluck('paket_foto_id')->toArray();
+                $reservasiBentrok = self::where('id', '!=', $reservasi->id)
+                    ->where('tanggal', $reservasi->tanggal)
+                    ->where('waktu', $reservasi->waktu)
+                    ->where('status_pembayaran', 'pending')
+                    ->whereHas('detail', function($q) use ($paketFotoIds) {
+                        $q->whereIn('paket_foto_id', $paketFotoIds);
+                    })
+                    ->get();
+                foreach ($reservasiBentrok as $r) {
+                    $r->update(['status_pembayaran' => 'rejected']);
+                }
             }
         });
     }
