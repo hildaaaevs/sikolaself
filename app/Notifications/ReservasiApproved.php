@@ -32,14 +32,14 @@ class ReservasiApproved extends Notification implements ShouldQueue
         Log::info('Menyiapkan email untuk reservasi ID: ' . $this->reservasi->id);
         return (new MailMessage)
             ->subject('Reservasi Anda Telah Disetujui')
-            ->greeting('Halo ' . $this->reservasi->nama . '!')
-            ->line('Reservasi Anda dengan nomor ID: ' . $this->reservasi->id . ' telah disetujui.')
-            ->line('Detail Reservasi:')
-            ->line('Tanggal: ' . $this->reservasi->tanggal->format('d F Y'))
-            ->line('Waktu: ' . $this->reservasi->waktu)
-            ->line('Total Pembayaran: Rp ' . number_format($this->reservasi->total, 0, ',', '.'))
+            ->greeting('Halo Sobat Minko!')
+            ->line('Reservasi Anda dengan nama  : ' . $this->reservasi->nama . ' telah disetujui.')
+            ->line('Detail Reservasi')
+            ->line('Tanggal             : ' . $this->reservasi->tanggal->format('d F Y'))
+            ->line('Waktu               : ' . $this->reservasi->waktu)
+            ->line('Total Pembayaran    : Rp ' . number_format($this->reservasi->total, 0, ',', '.'))
             ->line('Silahkan datang sesuai dengan jadwal yang telah ditentukan.')
             ->line('Terima kasih telah memilih layanan kami!')
-            ->salutation('Salam, Tim SiKolaself');
+            ->salutation('Salam dari Minko');
     }
 } 
