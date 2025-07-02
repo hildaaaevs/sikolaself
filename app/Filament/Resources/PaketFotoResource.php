@@ -59,7 +59,15 @@ class PaketFotoResource extends Resource
                         MarkdownEditor::make('fasilitas')
                     ])->columnSpan(2),
                     Section::make()->schema([
-                        FileUpload::make('gambar'),
+                        FileUpload::make('gambar')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/webp'])
+                            ->label('Gambar')
+                            ->required()
+                            ->helperText('Hanya file JPG, JPEG, PNG, atau WEBP yang diperbolehkan.')
+                            ->validationMessages([
+                                'mimes' => 'Format file tidak didukung. Hanya JPG, JPEG, PNG, atau WEBP.',
+                                'mimetypes' => 'Format file tidak didukung. Hanya JPG, JPEG, PNG, atau WEBP.',
+                            ]),
                         Toggle::make('status')
                         ->required()
                         ->default(true),

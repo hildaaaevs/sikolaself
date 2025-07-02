@@ -73,16 +73,18 @@ class UploadBuktiPembayaran extends Component
 
     public function uploadBuktiPembayaran()
     {
-        if ($this->isExpired) {
+        if (
+            $this->isExpired
+        ) {
             session()->flash('error', 'Waktu upload bukti pembayaran telah habis.');
             return redirect()->route('histori');
         }
 
         $this->validate([
-            'bukti_pembayaran' => 'required|image|max:2048', // max 2MB
+            'bukti_pembayaran' => 'required|mimes:jpg,jpeg,png,webp|max:2048', // max 2MB, hanya gambar tertentu
         ], [
             'bukti_pembayaran.required' => 'Bukti pembayaran harus diupload',
-            'bukti_pembayaran.image' => 'File harus berupa gambar',
+            'bukti_pembayaran.mimes' => 'File harus berupa gambar dengan format JPG, JPEG, PNG, atau WEBP. Dokumen tidak diperbolehkan.',
             'bukti_pembayaran.max' => 'Ukuran file maksimal 2MB',
         ]);
 

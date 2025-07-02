@@ -28,7 +28,7 @@ class Reservasii extends Model
 
     protected $casts = [
         'tanggal' => 'date',
-        'waktu' => 'string',
+        'waktu' => 'datetime',
         'total' => 'decimal:2'
     ];
 

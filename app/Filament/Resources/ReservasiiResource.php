@@ -95,6 +95,11 @@ class ReservasiiResource extends Resource
                                 ->label('Bukti Pembayaran')
                                 ->image()
                                 ->directory('bukti-pembayaran')
+                                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/webp']) 
+                                ->helperText('Hanya file JPG, JPEG, PNG, atau WEBP yang diperbolehkan.')
+                                ->validationMessages([
+                                    'mimes' => 'Format file tidak didukung. Hanya JPG, JPEG, PNG, atau WEBP.',
+                                    'mimetypes' => 'Format file tidak didukung. Hanya JPG, JPEG, PNG, atau WEBP.'])
                                 ->visibility('public')
                                 ->preserveFilenames()
                                 ->downloadable()
